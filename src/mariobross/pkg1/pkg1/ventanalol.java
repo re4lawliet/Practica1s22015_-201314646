@@ -469,10 +469,10 @@ public class ventanalol extends JFrame {
         }catch (Exception e) {
           System.out.println("exepcion");
         }
-        
+        //Actualizar Git
         
             return dato;
         }
-        
+ 
 }
 
