@@ -470,7 +470,7 @@ public class ventanalol extends JFrame {
           System.out.println("exepcion");
         }
         //Actualizar Git
-        
+        //MALDITO GIT
             return dato;
         }
  
