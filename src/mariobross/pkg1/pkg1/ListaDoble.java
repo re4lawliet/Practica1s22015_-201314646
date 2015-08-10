@@ -17,7 +17,11 @@ public class ListaDoble {
     public NodoDoble inicio; //nodo iniciall
     public NodoDoble fin;    //nodo final
     
+    //OTRAS VARIABLES------------------------------1
+    public static int temporal1;
+    public static String temporal1nombre;
     
+    //---------------------------------------------1
     //constructor por defecto
     public ListaDoble (){
         inicio = null; //inicio nulo
@@ -25,9 +29,9 @@ public class ListaDoble {
     }
     
     //metodo para saber si la lista esta vacia
-    public boolean esVacia(){
-        
+    public boolean esVacia(){ 
        return inicio==null; //si inicio es nulo retorna verdadero SIno Falso
+       
     }
     
     //metodo para agregar nodos al Final
@@ -40,16 +44,34 @@ public class ListaDoble {
     * Inicio = Fin = nuevo NodoDoble (elemento) //para agregar desde 0
     */
     public void AgregarAlFinal (objeto o){
-    
+        
+        
         if (!esVacia()){ //si la lista no esta vacia (porlomenos tiene un nodo)
         //crear un nuevo nodo y asignar a Fin
             fin = new NodoDoble (o,null,fin); 
             //se usa el 2do xq si tiene un nodo (Objeto, siguiente=null, Anterior=finde la lista)
             fin.anterior.siguiente = fin; //fin de anterior de siguiente va apuntar a fin
-  
+            /*
+            //Grafico-----------------------------
+            String linea = ""+temporal1nombre+"->"+o.nombre+";"+o.nombre+"->"+temporal1nombre+";";//apuntar de uno a otro
+            ClasePruevas.LineasGrafico.add(linea);
+   
+            temporal1=o.id;
+            temporal1nombre=o.nombre;
+            */
          }else{ //de lo contrario si esta vacia tonces se crea un nodo nuevo
             inicio = fin = new NodoDoble (o); //inicio y fin apuntan al primer nodo q vamos a crear cn el primer const
             //cuando no hay nodos
+            
+            /*
+           //Grafico----------------------------------------
+            String linea= ""+o.nombre+";";
+            ClasePruevas.LineasGrafico.add(linea);
+            
+            temporal1=o.id;
+            temporal1nombre=o.nombre;
+            //----------------------------------------------
+            */
         } 
             
     }
@@ -75,16 +97,23 @@ public class ListaDoble {
     //*tiene 2 enlaces se puede recorrer de inicio a fin Y de Fin a inicio
     // METODO DE INICIO A FIN:::::
     public void MostrarListaInicioFin (){
+        
         if (!esVacia()){ //si no esta vacia porlomenos tiene un nodo
             String datos="<-a-s->";
             NodoDoble auxiliar=inicio; //crea nodoDoble auxiliar y apunta al inicio
             
             while (auxiliar!=null){//mientras auxiliar sea diferente de nulo, Mostrara los datos
             datos = datos + "["+auxiliar.dato.nombre+"]<-a-s->"; //mostrar de esta forma
+            
+           
+            
             auxiliar = auxiliar.siguiente; //auxiliar vaser = a auxiliar de siguiente
+                 
              }
-            JOptionPane.showMessageDialog(null, datos,"Mostrando De inicio a fin",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, datos,"Lista Vacia",JOptionPane.INFORMATION_MESSAGE);
         }
+         
+        
     }
     
     // METODO DE FIN A INICIO:::::
@@ -276,6 +305,34 @@ public class ListaDoble {
          
      }
     
-     
+     public void Graficar (){
+            if (!esVacia()){ //si no esta vacia porlomenos tiene un nodo
+            String datos="<-a-s->";
+            NodoDoble auxiliar=inicio; //crea nodoDoble auxiliar y apunta al inicio
+            
+            
+            
+            while (auxiliar!=null){//mientras auxiliar sea diferente de nulo, Mostrara los datos
+            datos = datos + "["+auxiliar.dato.nombre+"]<-a-s->"; //mostrar de esta forma
+            
+            if (auxiliar.siguiente!=null){
+            String linea =""+auxiliar.dato.nombre+"->"+auxiliar.siguiente.dato.nombre+";"+auxiliar.siguiente.dato.nombre+"->"+auxiliar.dato.nombre+";";
+            ClasePruevas.LineasGrafico.add(linea);
+            }else{           
+             System.out.println("es el ultimo");
+             String linea =""+auxiliar.dato.nombre+"->"+"null"+";"+"null"+"->"+auxiliar.dato.nombre+";";
+            ClasePruevas.LineasGrafico.add(linea);
+            }
+            
+            
+            auxiliar = auxiliar.siguiente; //auxiliar vaser = a auxiliar de siguiente
+                 
+             }
+            
+        }else{
+                JOptionPane.showMessageDialog(null,"Lista Vacia Graficara Nada :v");
+            }
+                
+     }
      
 }

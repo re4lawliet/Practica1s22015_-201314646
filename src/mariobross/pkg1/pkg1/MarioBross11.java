@@ -18,6 +18,9 @@ public class MarioBross11 {
         
         Agregar x = new Agregar ();// instancia de la ventana agregar
         x.setVisible(true); //metodo de visibilidad 
+        
+        ClasePruevas.ExcribirArchivo();
+        
     }
     
 }
