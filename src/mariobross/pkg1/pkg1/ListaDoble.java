@@ -316,11 +316,11 @@ public class ListaDoble {
             datos = datos + "["+auxiliar.dato.nombre+"]<-a-s->"; //mostrar de esta forma
             
             if (auxiliar.siguiente!=null){
-            String linea =""+auxiliar.dato.nombre+"->"+auxiliar.siguiente.dato.nombre+";"+auxiliar.siguiente.dato.nombre+"->"+auxiliar.dato.nombre+";";
+            String linea =""+auxiliar.dato.nombre+auxiliar.dato.id+"->"+auxiliar.siguiente.dato.nombre+auxiliar.siguiente.dato.id+";"+auxiliar.siguiente.dato.nombre+auxiliar.siguiente.dato.id+"->"+auxiliar.dato.nombre+auxiliar.dato.id+";";
             ClasePruevas.LineasGrafico.add(linea);
             }else{           
              System.out.println("es el ultimo");
-             String linea =""+auxiliar.dato.nombre+"->"+"null"+";"+"null"+"->"+auxiliar.dato.nombre+";";
+             String linea =""+auxiliar.dato.nombre+auxiliar.dato.id+"->"+"null"+";"+"null"+"->"+auxiliar.dato.nombre+auxiliar.dato.id+";";
             ClasePruevas.LineasGrafico.add(linea);
             }
             

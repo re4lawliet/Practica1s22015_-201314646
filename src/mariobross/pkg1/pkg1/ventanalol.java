@@ -25,6 +25,9 @@ public class ventanalol extends JFrame {
     NodoOrtogonal temporalMatriz;
     NodoDoble auxiliar;
     
+    objeto mario=null;
+    objeto castillo=null;
+    
     objeto objetoDrag;
     
     //Matriz para pintar
@@ -66,27 +69,27 @@ public class ventanalol extends JFrame {
         add(label2);
         
         //Coton de Prueba para SAcar
-         Sacar.setBounds(1000, 80, 100, 50);
+         Sacar.setBounds(1000, 115, 100, 50);
          add(Sacar);
          click();
          
          //boton para Graficar
-         graficar.setBounds(1300, 50, 100, 50);
+         graficar.setBounds(1300, 115, 100, 50);
          add(graficar);
          graficas();
          
          //Boton Para Agregar Filas a la Matriz Ortogonal
-         insertarFila.setBounds(500, 80, 200, 50);
+         insertarFila.setBounds(500, 115, 200, 50);
          add(insertarFila);
          click3AgregarFila();
          
          
          //Boton Para Agregar Colomnas a la Matriz Ortogonal
-         insertarColumna.setBounds(300, 80, 200, 50);
+         insertarColumna.setBounds(300, 115, 200, 50);
          add(insertarColumna);
          click4AgregarColumna();
          
-         Jugar.setBounds(700, 80, 200, 50);
+         Jugar.setBounds(700, 115, 200, 50);
          add(Jugar);
          jugarclick();
         //-------Agregar boton
@@ -566,32 +569,36 @@ public class ventanalol extends JFrame {
         public void Drop (int x, int y,int id, objeto o, NodoOrtogonal n){
                        
             
-                 ActionListener listener = new ActionListener() {
-
-                     public void actionPerformed(ActionEvent e) {                 
-                        
-                         
-                         //Aqui ya se elimina el objeto de la Doble Enlazada y se Debe colocar en la Ortogonal
-                         objeto dato;
-                         dato = auxiliar.dato;
-                         
-                         
-                         //MostrarBoton2();
-                        //---------------------------------------------------------------------------------}
-                        //---------------------------------------------------------------------------------
-                        NodoOrtogonal x1 = new NodoOrtogonal(dato,1000,1000);
-                         
-                        
-                        recorrerMatriz(id,auxiliar.dato);
-                        //Repintar();
-                        dato.boton.setBounds(x,y,40,40);
-                        dato.boton.add(dato.boton);
-                        dato.boton.setEnabled(false);
-                        
-                        llenarEnFrame();
-                        
-                     }
-                 };
+                 ActionListener listener;
+        listener = new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                
+                try{
+                    //Aqui ya se elimina el objeto de la Doble Enlazada y se Debe colocar en la Ortogonal
+                    objeto dato;
+                    dato = auxiliar.dato;
+                    
+                    
+                    //MostrarBoton2();
+                    //---------------------------------------------------------------------------------}
+                    //---------------------------------------------------------------------------------
+                    NodoOrtogonal x1 = new NodoOrtogonal(dato,1000,1000);
+                    
+                    
+                    recorrerMatriz(id,auxiliar.dato);
+                    //Repintar();
+                    dato.boton.setBounds(x,y,40,40);
+                    dato.boton.add(dato.boton);
+                    dato.boton.setEnabled(false);
+                    
+                    llenarEnFrame();
+                    //Captura cualquier Exepcion
+                }catch (Exception x) {
+                    System.out.println("exepcion");
+                }
+            }
+        };
                  temporal2.dato.boton.addActionListener(listener);
                  
              }
@@ -711,8 +718,35 @@ public class ventanalol extends JFrame {
 
                      public void actionPerformed(ActionEvent e) {                 
                         
+                     for(NodoOrtogonal i=ClasePruevas.matriz.l.primero.filas.primero;i!=null;i=i.derecha){
+            
+                     for(NodoOrtogonal j=i;j!=null;j=j.abajo){
+                    
+                         //Condiciones para Moverse a la Derecha 
+                         //si el encontrado es de tipo mario y validacion solo a pasado una ves y el de la derecha no es nulo
+                      if (j.dato.tipo==7){       
+                           
+                      mario=j.dato;
+                          
+                      }
+                      if (j.dato.tipo==8){
+                      castillo=j.dato;    
+                      }
+                      }
+                      }
+                       
+                      if (mario!=null && castillo!=null){//si mario nose a insertado o castillo
                        //PARA JUGAR.. 
+                       ventanajuego formulario1=new ventanajuego();
+                       formulario1.setBounds(0,0,1500,1000);
+                       formulario1.setResizable(false);
+                       formulario1.setVisible(true); 
+                      }else{
+                      JOptionPane.showMessageDialog(rootPane, "Falta Insertar Mario O Castillo (Verifique MApa)");    
+                      }
+                     
                          
+                       
                          
                      }
                  };
@@ -736,6 +770,7 @@ public class ventanalol extends JFrame {
                          j.dato.id=objetonuevo.id;
                          j.dato.imagen=objetonuevo.imagen;
                          j.dato.tipo=objetonuevo.tipo;
+                         j.dato.label=objetonuevo.label;
                         
                          
                                                  

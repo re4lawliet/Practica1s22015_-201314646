@@ -225,6 +225,33 @@ public class Eliminar extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // A
+        objeto mario=null;
+        objeto castillo=null;
+        
+        for(NodoDoble i=ListaObjetos2.inicio;i!=null;i=i.siguiente){
+        
+                     if (i.dato.tipo==7){       
+                           
+                      mario=i.dato;
+                          
+                     }
+                     if (i.dato.tipo==8){
+                     castillo=i.dato;     
+                     }        
+        }
+        
+        if (mario!=null){
+        //SI eSTA    
+        }else{//de lo contrario es xq no esta
+            Agregar.jButton7.setEnabled(true);
+        }
+        if (castillo!=null){
+            //si esta 
+        }else{// de lo contrario es xq no esta
+          Agregar.jButton8.setEnabled(true);  
+        }     
+        
+        
         setVisible(false);
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -235,15 +262,26 @@ public class Eliminar extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // SIGUIENTE BOTON PARA ARMAR LA MATRIZ ORTOGONAL
-        
-        
+        objeto mario=null;
+        objeto castillo=null;
         
         
         if (!ListaObjetos.esVacia()){ //si la lista no esta vacia
         
+        for(NodoDoble i=ListaObjetos2.inicio;i!=null;i=i.siguiente){
         
-            
-        MatrizOrtogonal matriz = new MatrizOrtogonal();
+                     if (i.dato.tipo==7){       
+                           
+                      mario=i.dato;
+                          
+                     }
+                     if (i.dato.tipo==8){
+                     castillo=i.dato;     
+                     }        
+        }
+        
+        if (mario!=null && castillo!=null){//si mario nose a insertado o castillo
+                      MatrizOrtogonal matriz = new MatrizOrtogonal();
         
         String ax = JOptionPane.showInputDialog("Ingrese un numero x: ");
         String ay = JOptionPane.showInputDialog("Ingrese un numero y: ");
@@ -267,6 +305,11 @@ public class Eliminar extends javax.swing.JFrame {
         x.setVisible(true);
         
         setVisible(false);
+        }else{
+                      JOptionPane.showMessageDialog(rootPane, "Falta Insertar Mario O Castillo (Verifique MApa)");    
+        }
+            
+        
         
             
         }else{
