@@ -236,8 +236,13 @@ public class Eliminar extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // SIGUIENTE BOTON PARA ARMAR LA MATRIZ ORTOGONAL
         
+        
+        
+        
         if (!ListaObjetos.esVacia()){ //si la lista no esta vacia
-             
+        
+        
+            
         MatrizOrtogonal matriz = new MatrizOrtogonal();
         
         String ax = JOptionPane.showInputDialog("Ingrese un numero x: ");

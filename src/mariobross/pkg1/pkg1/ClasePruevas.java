@@ -278,15 +278,19 @@ public static void EscribirArchivoMatriz(){
             
             pw.println("digraph G {");//cabezera del Graphviz
             
-            pw.println ("rankdir=LR;");//pone la Direccion de Izquierda a Derecha
+            pw.println ("rankdir=TB; ");//pone la Direccion de Izquierda a Derecha
             pw.println ("node [shape=record,width=.1,height=.1];");//pone el cuadro q simula el nodo
-          
+            pw.println ("subgraph g{");
+            
             for (int i=0; i< ventanalol.Lineas.size(); i++){
                 
                 pw.println(""+ventanalol.Lineas.get(i).toString());
                 System.out.println(""+ventanalol.Lineas.get(i));
             }
             
+            
+            pw.println("}rank=same subgraph d{ ");
+            pw.println("}");
             pw.println("}"); //Fin del GraphViz 
         } catch (Exception e) {
             e.printStackTrace();

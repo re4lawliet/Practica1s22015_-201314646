@@ -92,7 +92,7 @@ public class MatrizOrtogonal {
         
         for (int i=0;i<x;i++){
             
-            o1=new objeto("Mario",2);
+            o1=new objeto("nullo",0);
             Insertar2(i,Yinicial,o1);
             System.out.print("----------------------------------|"+ClasePruevas.matriz.l.ultimo.filas.ultimo.dato.id);
         }
@@ -108,7 +108,7 @@ public class MatrizOrtogonal {
        
        for (int i=0;i<y;i++){
             
-            o=new objeto("Bandera",1);
+            o=new objeto("nullo",0);
             Insertar2(Xinicial,i,o);
             System.out.print("----------------------------------|"+ClasePruevas.matriz.c.ultimo.columna.ultimo.dato.id);
         }

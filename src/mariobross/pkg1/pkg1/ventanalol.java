@@ -21,6 +21,8 @@ import javax.swing.*;
 public class ventanalol extends JFrame {
     NodoOrtogonal temporalito;
     NodoOrtogonal temporal2;
+    NodoOrtogonal temporal3;
+    NodoOrtogonal temporalMatriz;
     NodoDoble auxiliar;
     
     objeto objetoDrag;
@@ -43,6 +45,7 @@ public class ventanalol extends JFrame {
     JButton insertarFila = new JButton("Insertar Fila");
     JButton insertarColumna=new JButton ("Insertar Columna");
     
+    JButton Jugar = new JButton ("jugar");
     
     public ListaDoble ListaObjetos3= new ListaDoble(); 
     
@@ -51,42 +54,6 @@ public class ventanalol extends JFrame {
     public ventanalol() {
         setLayout(null);
         
-        MouseListener m1 = new MouseListener(){
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                
-                JComponent jc = (JComponent)e.getSource();
-                TransferHandler th = jc.getTransferHandler();
-                
-                th.exportAsDrag(jc, e, TransferHandler.COPY);
-                
-                }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                
-                JComponent jc = (JComponent)e.getSource();
-                TransferHandler th = jc.getTransferHandler();
-                
-                th.exportAsDrag(jc, e, TransferHandler.COPY);
-                
-                
-                }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                }
-            
-        };
         
         
         
@@ -119,6 +86,9 @@ public class ventanalol extends JFrame {
          add(insertarColumna);
          click4AgregarColumna();
          
+         Jugar.setBounds(700, 80, 200, 50);
+         add(Jugar);
+         jugarclick();
         //-------Agregar boton
         //boton1=new JButton("lol");
         //boton1.setBounds(90, 800, 40, 40);
@@ -172,7 +142,7 @@ public class ventanalol extends JFrame {
     }
     
     //llena la matriz
-        public int llenarEnFrame(){
+        public void llenarEnFrame(){
         
 
             int aux=10;
@@ -188,19 +158,18 @@ public class ventanalol extends JFrame {
         while (temporal1.filas.primero!=null){
          
             
-            temporal2=temporal1.filas.primero;
+        temporal2=temporal1.filas.primero;
             
         while (temporal2!=null){
           
             System.out.print("-"+temporal2.dato.id);
-            
-            
-            
+              
             temporal2.dato.boton.setBounds(aux,auy,40,40);
+            temporal2.dato.boton.setVisible(true);
             add(temporal2.dato.boton);
             int aux2=aux;
             int auy3=auy;
-            Drop(aux2, auy3, temporal2.dato.id, temporal2.dato);
+            Drop(aux2, auy3, temporal2.dato.id, temporal2.dato, temporal2);
             
             temporal2 = temporal2.derecha;
             aux = aux+40;
@@ -224,7 +193,7 @@ public class ventanalol extends JFrame {
         }
         
         
-            return dato;
+            
         }
         
         
@@ -386,8 +355,10 @@ public class ventanalol extends JFrame {
                              if (Eliminar.ListaObjetos2.esVacia()){
                                  JOptionPane.showMessageDialog(rootPane, "Ya no Tiene Elementos Por Sacar");
                              }else{
-                            auxiliar=Eliminar.ListaObjetos2.inicio;
+                             auxiliar=Eliminar.ListaObjetos2.inicio;
                              
+                             Eliminar.ListaObjetos2.EliminarBicho(auxiliar);
+                             MostrarBoton();
                             //Auxiliar es el Q sera Eliminado
                             
                              if (validar==1){
@@ -409,12 +380,24 @@ public class ventanalol extends JFrame {
                               if (Eliminar.ListaObjetos2.esVacia()){
                                  JOptionPane.showMessageDialog(rootPane, "Ya no Tiene Elementos Por Sacar");
                              }else{
-                             NodoDoble auxiliar=Eliminar.ListaObjetos2.inicio;
-                             
-                             //Auxiliar es el otro eliminado
+                             auxiliar=Eliminar.ListaObjetos2.inicio;
                              
                              Eliminar.ListaObjetos2.EliminarBicho(auxiliar);
                              MostrarBoton2();
+                             
+                              if (validar==1){
+                                 JOptionPane.showMessageDialog(rootPane, "Tiene Un Objeto Seleccionado Coloque en el Mapa");
+                             }else{
+                             JOptionPane.showMessageDialog(rootPane, "Tiene Un Objeto: '"+auxiliar.dato.nombre+"' Seleccionado");
+                                 //Seleccione :V
+                                 validar=1;
+                                 //-------------------------------
+                                 //Luego de Colocar en el Mapa Se elimina y se setea en la Matriz
+                             
+                             }
+                                         
+                             
+                              //MostrarBoton2();
                               }
                          }
                          
@@ -558,7 +541,7 @@ public class ventanalol extends JFrame {
         ClasePruevas.ExcribirArchivo();
         ClasePruevas.graficar();
         
-        GraficarMatriz();
+        GraficarPrueba();
         ClasePruevas.EscribirArchivoMatriz();
         ClasePruevas.graficarMatriz();
         
@@ -567,7 +550,7 @@ public class ventanalol extends JFrame {
         
         Lineas.clear();
         ClasePruevas.LineasGrafico.clear();
-        
+        System.out.println("LA MIERDA ESTA AQUII::::"+ClasePruevas.matriz.c.primero.columna.ultimo.dato.nombre);
         
                      }
                  };
@@ -580,7 +563,7 @@ public class ventanalol extends JFrame {
         //Drag
         
         //Drop
-        public void Drop (int x, int y,int id, objeto o){
+        public void Drop (int x, int y,int id, objeto o, NodoOrtogonal n){
                        
             
                  ActionListener listener = new ActionListener() {
@@ -592,37 +575,36 @@ public class ventanalol extends JFrame {
                          objeto dato;
                          dato = auxiliar.dato;
                          
-                         Eliminar.ListaObjetos2.EliminarBicho(auxiliar);
-                         MostrarBoton();
+                         
+                         //MostrarBoton2();
                         //---------------------------------------------------------------------------------}
                         //---------------------------------------------------------------------------------
-                          
-                        dato.boton.setBounds(x, y, 40, 40);
-                        add(dato.boton);                         
+                        NodoOrtogonal x1 = new NodoOrtogonal(dato,1000,1000);
+                         
+                        
+                        recorrerMatriz(id,auxiliar.dato);
+                        //Repintar();
+                        dato.boton.setBounds(x,y,40,40);
+                        dato.boton.add(dato.boton);
+                        dato.boton.setEnabled(false);
                         
                         llenarEnFrame();
-                        recorrer(id,dato);
+                        
                      }
                  };
                  temporal2.dato.boton.addActionListener(listener);
                  
              }
         
-        public void recorrer(int idviejo, objeto objetonuevo){
+        public void recorrer(int idviejo, objeto objetonuevo, NodoOrtogonal nodo){
             
             NodoOrtogonal Columna=ClasePruevas.matriz.c.primero.columna.primero;
             NodoOrtogonal Fila =ClasePruevas.matriz.l.primero.filas.primero;
             
             
-            NodoLateral temporal3 = ClasePruevas.matriz.l.primero;
-            NodoCabezera temporal4 = ClasePruevas.matriz.c.primero;
-            
             
                        
            
-        int aux=10;
-        int auy=180;    
-        int dato=0;
         
         try {
            
@@ -633,25 +615,27 @@ public class ventanalol extends JFrame {
         while (temporal1.filas.primero!=null){
          
             
-            temporal2=temporal1.filas.primero;
+            NodoOrtogonal temporal3=temporal1.filas.primero;
             
-        while (temporal2!=null){
+        while (temporal3!=null){
           
-            System.out.print("-"+temporal2.dato.id);
-            //buscar dato
+            System.out.print("-"+temporal3.dato.id);
             
-            if (temporal2.dato.id==idviejo){
-                
-                temporal2.dato=objetonuevo;
+            //buscar dato
+            if (temporal3.dato.id==idviejo){                 
+                temporal3.dato=objetonuevo;             
                 System.out.println("Inserto Dato :v");
             }
                         
-            temporal2 = temporal2.derecha;
             
+            temporal3 = temporal3.derecha;   
         }   
+        
             System.out.println("-fila--"+temporal1.filas.primero.y);
             temporal1 = temporal1.siguiente;
+            
         }  
+        llenarEnFrame();
         //Captura cualquier Exepcion
         }catch (Exception e) {
           System.out.println("exepcion");
@@ -674,21 +658,39 @@ public class ventanalol extends JFrame {
             
         while (temporal1.filas.primero!=null){ 
             
-            temporal2=temporal1.filas.primero;
+            temporalMatriz=temporal1.filas.primero;
             
-        while (temporal2!=null){
-          
-            System.out.print("-"+temporal2.dato.id);
+        while (temporalMatriz!=null){
+                
+                //se mete la primera linea
+                if (temporalMatriz.derecha==null){
+                    
+                }else{
             
-            String linea = ""+temporal2.dato.nombre+temporal2.dato.id;
-            Lineas.add(linea);
-            
-            
-            temporal2 = temporal2.derecha;
+                String identi=temporalMatriz.dato.nombre+temporalMatriz.dato.id;
+                String identi2=temporalMatriz.derecha.dato.nombre+temporalMatriz.derecha.dato.id;
+                
+                String linea1=""+identi+"->"+identi2+"; \n"
+                                +identi2+"->"+identi+";\n";
+                linea1=linea1+"{rank=same;"+identi+" "+identi2+"}\n";
+                
+                if (temporalMatriz.abajo==null){                   
+                }else{
+                    String identi3=temporalMatriz.derecha.dato.nombre+temporalMatriz.abajo.dato.id;
+                    linea1=linea1+""+identi+"->"+identi3+"; \n"
+                                   +identi3+"->"+identi+";\n";  
+                }
+                
+                Lineas.add(linea1);
+                }
+                
+                
+            temporalMatriz = temporalMatriz.derecha;
             
         }
                     
             System.out.println("-fila--"+temporal1.filas.primero.y);
+            
             
             //System.out.println(" y= "+temporal1.x+" dato: Sin Dato");
             temporal1 = temporal1.siguiente;
@@ -701,6 +703,136 @@ public class ventanalol extends JFrame {
   
 }
         
+        //jugar
+        public void jugarclick (){
+                       
+            
+                 ActionListener listener = new ActionListener() {
+
+                     public void actionPerformed(ActionEvent e) {                 
+                        
+                       //PARA JUGAR.. 
+                         
+                         
+                     }
+                 };
+                 Jugar.addActionListener(listener);
+                 
+             }
         
+        
+    
+            public void recorrerMatriz(int idviejo,objeto objetonuevo){
+    
+    
+            for(NodoOrtogonal i=ClasePruevas.matriz.l.primero.filas.primero;i!=null;i=i.derecha){
+            
+                for(NodoOrtogonal j=i;j!=null;j=j.abajo){
+                    
+                     if (j.dato.id==idviejo){       
+                        
+                         
+                         j.dato.nombre=objetonuevo.nombre;
+                         j.dato.id=objetonuevo.id;
+                         j.dato.imagen=objetonuevo.imagen;
+                         j.dato.tipo=objetonuevo.tipo;
+                        
+                         
+                                                 
+                      System.out.println("Inserto Dato :v");
+                      }
+                    
+                    }              
+              
+            }
+            
+            llenarEnFrame();
+            }
+            
+            
+                        public void GraficarPrueba(){
+                        String linea1="";
+    //----------------------------------------Agregar Nodos
+                for(NodoOrtogonal i=ClasePruevas.matriz.l.primero.filas.primero;i!=null;i=i.derecha){
+            
+                for(NodoOrtogonal j=i;j!=null;j=j.abajo){
+                linea1=linea1+""+j.dato.nombre+j.dato.id+";\n";
+                    }                         
+            }
+                
+                Lineas.add(linea1);
+                linea1="";         
+                
+                //-----------------------------------Agregar punteros de Arriba Abajo            
+            for(NodoOrtogonal k=ClasePruevas.matriz.l.primero.filas.primero;k!=null;k=k.abajo){
+            
+                for(NodoOrtogonal l=k;l!=null;l=l.derecha){
+                
+                
+                if (l.derecha!=null){             
+                String identi=l.dato.nombre+l.dato.id;
+                String identi2=l.derecha.dato.nombre+l.derecha.dato.id;
+                
+                linea1=linea1+" "+identi+"->"+identi2+"; \n"
+                         +identi2+"->"+identi+";\n";
+                linea1=linea1+"{rank=same;"+identi+" "+identi2+"}\n";
+                 }else{}
+                  
+                    }                         
+            }
+                
+                Lineas.add(linea1);
+                linea1="";
+                
+                //-----------------------------------Agregar punteros de izquierda a derecha            
+            for(NodoOrtogonal k=ClasePruevas.matriz.l.primero.filas.primero;k!=null;k=k.derecha){
+            
+                for(NodoOrtogonal l=k;l!=null;l=l.abajo){
+                
+                
+                if (l.abajo!=null){             
+                String identi=l.dato.nombre+l.dato.id;
+                String identi2=l.abajo.dato.nombre+l.abajo.dato.id;
+                
+                linea1=linea1+" "+identi+"->"+identi2+"; \n"
+                         +identi2+"->"+identi+";\n";
+                
+                 }else{}
+                  
+                    }                         
+            }
+                
+                Lineas.add(linea1);
+                linea1="";
+            }
+            
+            
+            public void Repintar (){
+                
+                int aux=10;
+                int auy=180;
+                
+                for(NodoOrtogonal i=ClasePruevas.matriz.l.primero.filas.primero;i!=null;i=i.derecha){
+            
+                for(NodoOrtogonal j=i;j!=null;j=j.abajo){
+                    
+                    
+            j.dato.boton.setBounds(auy,aux,40,40);
+            j.dato.boton.setVisible(true);
+            add(j.dato.boton);
+            
+            int aux2=aux;
+            int auy3=auy;
+            
+                    
+            auy = auy+40;
+                      }
+                aux=aux+40;    
+                
+                    }              
+            
+            }
+            
+         
 }
 
