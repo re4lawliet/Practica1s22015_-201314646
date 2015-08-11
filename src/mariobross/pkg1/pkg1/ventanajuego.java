@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +30,8 @@ public class ventanajuego extends JFrame {
     NodoOrtogonal Mario;
     NodoOrtogonal temporal3;
     NodoOrtogonal Temporal;
+    
+    
     
     public static int vidas=3;
     public static int Monedas=0;
@@ -100,7 +104,7 @@ public class ventanajuego extends JFrame {
              String l =a.getKeyText(a.getKeyCode());
              String conv = a.getKeyText(a.getKeyCode())+a.getKeyText(a.getKeyCode());
              
-             if(l.equals("Derecha")){
+               if(l.equals("Derecha")){
                  //lama al metodo de Moverlo Derecha
                  MoverMarioDerecha();
                 }else if (l.equals("Izquierda")){
@@ -108,6 +112,9 @@ public class ventanajuego extends JFrame {
                  MoverMarioIzquierda();   
                 }else if (l.equals("Arriba")){
                     //llamar al metodo de Salto
+                    
+                    
+                    
                  SaltarSimple();
                 }else if (l.equals("Abajo")){
                  //abajo no hace
@@ -323,18 +330,19 @@ public class ventanajuego extends JFrame {
                     
                          //Condiciones para Moverse a la Derecha 
                          //si el encontrado es de tipo mario y validacion solo a pasado una ves y el de la derecha no es nulo
-                     if (j.dato.tipo==7 && validar==true &&j.derecha!=null){       
+                     if (j.dato.tipo==7 && validar==true && j.derecha!=null){       
                          
-                         if ((j.abajo.dato.tipo==1 || j.abajo.dato.tipo==2)&&(j.derecha.abajo.dato.tipo==1 || j.derecha.abajo.dato.tipo==2)){
-                             
-                         temporal3=j.derecha.dato;
-                         j.derecha.dato=j.dato;
-                         j.dato=temporal3;
-                         
-                         llenarEnFrame();
-                         validar=false;  
-                             
+                         if ((j.derecha.abajo.dato.tipo==1 || j.derecha.abajo.dato.tipo==2)){
+                             //&&(j.derecha.abajo.dato.tipo==1 || j.derecha.abajo.dato.tipo==2)
+                         //SE Mueve
                          }else{
+                             
+                         temporal3=j.derecha.abajo.dato;
+                         j.derecha.abajo.dato=j.dato;
+                         j.dato=temporal3;
+                         llenarEnFrame();
+                         validar=false; 
+                         
                          JOptionPane.showMessageDialog(rootPane, "Caiste Pierdes una Vida");
                          if(vidas<=0){
                          JOptionPane.showMessageDialog(rootPane, "GAME OVER");
@@ -343,8 +351,68 @@ public class ventanajuego extends JFrame {
                          vidas=vidas-1;
                          label2.setText("Vidas Totales::: "+vidas);
                          repaint();
-                         
                          }
+                         
+                         if (j.derecha.dato.tipo==0){//si es nulo lol
+                         
+                         temporal3=j.derecha.dato;
+                         j.derecha.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         llenarEnFrame();
+                         validar=false;   
+                         
+                         }else if(j.derecha.dato.tipo==5 || j.derecha.dato.tipo==6 ||j.derecha.dato.tipo==8){//cosas que te hacen bien :v
+                         
+                         if(j.derecha.dato.tipo==5){//IS en cuentra Una Ficha
+                         objeto nul = new objeto("nullo",0);
+                         temporal3=nul;
+                         j.derecha.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         
+                         //TIpo Ficha Suma Al Contador de Fichas
+                         Monedas=Monedas+1;
+                         label1.setText("Monedas Totales::: "+Monedas);
+                         repaint();
+                         llenarEnFrame();
+                         validar=false;
+                         
+                         }    
+                         if(j.derecha.dato.tipo==6){ //si encuentra Una Vida
+                         objeto nul = new objeto("nullo",0);    
+                         temporal3=nul;
+                         j.derecha.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         //TIpo Ficha Suma Al Contador de Fichas
+                         vidas=vidas+1;
+                         label2.setText("Vidas Totales::: "+vidas);
+                         repaint();
+                         llenarEnFrame();
+                         validar=false;    
+                         }  
+                         if (j.derecha.dato.tipo==8){
+                         objeto nul = new objeto("nullo",0);
+                         //qdarse ahi ensima    
+                         temporal3=nul;
+                         j.derecha.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         JOptionPane.showMessageDialog(rootPane, "Lo SIento Mario La Princesa ESta en Otro Castillo LOOOL");
+                         inicio.setEnabled(false);
+                         }
+                         
+                         }else if(j.derecha.dato.tipo==3 || j.derecha.dato.tipo==4){ //Cosas que te hacen Mal
+                             
+                         
+                             
+                         }else if(j.derecha.dato.tipo==1 || j.derecha.dato.tipo==2){ //cosas que te Frenan el Paso
+                             
+                         //NADA XQ NO AVANZA    
+                         }
+                         
+                         
                          
                                                  
                       System.out.println("Movio Mario Derecha");
@@ -365,9 +433,32 @@ public class ventanajuego extends JFrame {
             
                      for(NodoOrtogonal j=i;j!=null;j=j.abajo){
                     
-                         //Condiciones para Moverse a la Derecha 
+                         //Condiciones para Moverse a la Izquierda 
                          //si el encontrado es de tipo mario y validacion solo a pasado una ves y el de la derecha no es nulo
-                     if (j.dato.tipo==7 && validar==true &&j.izquierda!=null){       
+                     if (j.dato.tipo==7 && validar==true && j.izquierda!=null){       
+                         
+                         if ((j.izquierda.abajo.dato.tipo==1 || j.izquierda.abajo.dato.tipo==2)){
+                             //&&(j.derecha.abajo.dato.tipo==1 || j.derecha.abajo.dato.tipo==2)
+                         //SE Mueve
+                         }else{
+                             
+                         temporal3=j.izquierda.abajo.dato;
+                         j.izquierda.abajo.dato=j.dato;
+                         j.dato=temporal3;
+                         llenarEnFrame();
+                         validar=false; 
+                         
+                         JOptionPane.showMessageDialog(rootPane, "Caiste Pierdes una Vida");
+                         if(vidas<=0){
+                         JOptionPane.showMessageDialog(rootPane, "GAME OVER");
+                         inicio.setEnabled(false);
+                         }
+                         vidas=vidas-1;
+                         label2.setText("Vidas Totales::: "+vidas);
+                         repaint();
+                         }
+                         
+                         if (j.izquierda.dato.tipo==0){//si es nulo lol
                          
                          temporal3=j.izquierda.dato;
                          j.izquierda.dato=j.dato;
@@ -375,15 +466,68 @@ public class ventanajuego extends JFrame {
                          
                          llenarEnFrame();
                          validar=false;   
+                         
+                         }else if(j.izquierda.dato.tipo==5 || j.izquierda.dato.tipo==6 ||j.izquierda.dato.tipo==8){//cosas que te hacen bien :v
+                         
+                         if(j.izquierda.dato.tipo==5){//IS en cuentra Una Ficha
+                         objeto nul = new objeto("nullo",0);   
+                         temporal3=nul;
+                         j.izquierda.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         
+                         //TIpo Ficha Suma Al Contador de Fichas
+                         Monedas=Monedas+1;
+                         label1.setText("Monedas Totales::: "+Monedas);
+                         repaint();
+                         llenarEnFrame();
+                         validar=false;
+                         
+                         }    
+                         if(j.izquierda.dato.tipo==6){ //si encuentra Una Vida
+                         objeto nul = new objeto("nullo",0);    
+                         temporal3=nul;
+                         j.izquierda.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         //TIpo Ficha Suma Al Contador de Fichas
+                         vidas=vidas+1;
+                         label2.setText("Vidas Totales::: "+vidas);
+                         repaint();
+                         llenarEnFrame();
+                         validar=false;    
+                         }  
+                         if (j.izquierda.dato.tipo==8){
+                         objeto nul = new objeto("nullo",0); 
+                         //qdarse ahi ensima    
+                         temporal3=nul;
+                         j.izquierda.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                         JOptionPane.showMessageDialog(rootPane, "Lo SIento Mario La Princesa ESta en Otro Castillo LOOOL");
+                         inicio.setEnabled(false);
+                         }
+                         
+                         }else if(j.izquierda.dato.tipo==3 || j.izquierda.dato.tipo==4){ //Cosas que te hacen Mal
+                             
+                         
+                             
+                         }else if(j.izquierda.dato.tipo==1 || j.izquierda.dato.tipo==2){ //cosas que te Frenan el Paso
+                             
+                         //NADA XQ NO AVANZA    
+                         }
+                         
+                         
+                         
                                                  
-                      System.out.println("Movio Mario Ala Izquierda");
+                      System.out.println("Movio Mario Izquierda");
                       }else{
-                      //Nada
+                      //NAda  
                       }
                     
                       }
-                }
          
+                 }
      }
      
      public void SaltarSimple(){
@@ -420,6 +564,10 @@ public class ventanajuego extends JFrame {
                 }
      }
      
+     public void Salto(){
+         
+     }
+     
      
              public void ReiniciarClick (){
                        
@@ -427,7 +575,8 @@ public class ventanajuego extends JFrame {
                  ActionListener listener = new ActionListener() {
 
                      public void actionPerformed(ActionEvent e) {                 
-                        
+                    setVisible(false);
+                    
                     ClasePruevas.matriz=temporal4;
                     
                     ventanajuego formulario1=new ventanajuego();
@@ -444,4 +593,42 @@ public class ventanajuego extends JFrame {
                  reiniciar.addActionListener(listener);
                  
              }
+             
+             
+                 private class hilo extends Thread{
+        
+      
+     @Override
+     public void run(){
+     
+         objeto temporal3;
+         objeto temporal4;
+                boolean validar=true; 
+                
+                 for(NodoOrtogonal i=ClasePruevas.matriz.l.primero.filas.primero;i!=null;i=i.derecha){
+            
+                     for(NodoOrtogonal j=i;j!=null;j=j.abajo){
+                    
+                      if ((j.dato.tipo==3||j.dato.tipo==4) && validar==true && j.izquierda!=null){
+                         temporal3=j.izquierda.dato;
+                         j.izquierda.dato=j.dato;
+                         j.dato=temporal3;
+                         
+                          try {
+                              Thread.sleep(1000);
+                          } catch (InterruptedException ex) {
+                              Logger.getLogger(ventanajuego.class.getName()).log(Level.SEVERE, null, ex);
+                          }
+                          
+                         llenarEnFrame();
+                         validar=false; 
+                      }    
+                         
+                     }
+                 }
+         
+         
+     }   
+        
+    }
 }
